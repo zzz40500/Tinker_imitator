@@ -33,16 +33,15 @@ public class Dex {
         classs.add(item);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Dex)) return false;
-
-        Dex aClass = (Dex) o;
-
-        return classs != null ? classs.equals(aClass.classs) : aClass.classs == null;
-
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof Dex)) return false;
+//
+//        Dex aClass = (Dex) o;
+//
+//        return classs != null ? classs.equals(aClass.classs) : aClass.classs == null;
+//    }
 
     public Object[] getAll() {
         return classs.toArray();

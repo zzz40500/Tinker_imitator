@@ -12,7 +12,7 @@ import com.cundong.utils.PatchUtils;
  */
 public class ApkPatchDemo {
 
-	public static void main(String[] args) {
+	public  void main(String[] args) {
 
 		long start = System.currentTimeMillis();
 		

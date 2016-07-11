@@ -28,4 +28,4 @@ dependencies {
     compile project(':library')
 }
 
-//apply plugin: com.dim.TinkerPlugin
+apply plugin: com.dim.TinkerPlugin
