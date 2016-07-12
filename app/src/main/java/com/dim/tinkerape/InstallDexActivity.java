@@ -1,11 +1,10 @@
 package com.dim.tinkerape;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
 import com.dim.library.Tinker;
 
 import java.util.List;
@@ -46,9 +45,6 @@ public class InstallDexActivity extends AppCompatActivity {
             tv.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(InstallDexActivity.this, MainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    InstallDexActivity.this.startActivity(intent);
                     android.os.Process.killProcess(android.os.Process.myPid());
                 }
             }, 3000);
