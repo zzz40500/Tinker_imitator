@@ -1,14 +1,25 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
 
 repositories {
     jcenter()
 }
+configurations {
+    provided
+}
 
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
 dependencies {
     compile 'commons-io:commons-io:1.4'
     compile 'commons-codec:commons-codec:1.6'
     compile 'com.android.tools.build:builder:2.1.2'
     compile 'com.android.tools.build:gradle-core:2.1.2'
+    compile 'com.google.code.gson:gson:2.7'
+
 
 }
 

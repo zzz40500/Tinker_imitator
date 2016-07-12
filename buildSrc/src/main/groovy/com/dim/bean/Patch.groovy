@@ -1,9 +1,6 @@
 package com.dim.bean
 
 import com.dim.common.IoUtils
-
-import java.text.SimpleDateFormat
-
 /**
  * PatchBean <br/>
  * Created by dim on 2016-06-19.
@@ -11,7 +8,7 @@ import java.text.SimpleDateFormat
 public class Patch {
 
 
-    public static final String ROOT_NAME = "Patch";
+    public static final String ROOT_NAME = "patch";
     public static final String PATCH_FILE_NAME = "patch";
     public static final String MAPPING_FILE_NAME = "mapping.txt";
     public static final String MAIN_DEX_LIST_FILE_NAME = "maindexlist.txt";
@@ -22,12 +19,11 @@ public class Patch {
     String version;
     String variantName;
     String appModuleFile;
-    boolean buildPatch
-    String combinedJar
-//    /**
-//     * debug 模式下的发送的手机 用于调试.
-//     */
-//    String patchFile;
+    String combinedJar;
+    String patchSerialNumber;
+    String patchPath;
+    boolean buildPatch;
+
 
     Patch(String appModuleFile, String version, String variantName, boolean buildPatch) {
         this.buildPatch = buildPatch
@@ -60,11 +56,22 @@ public class Patch {
         return file;
     }
 
-    private String patchPath;
+
+    public String getPatchSerialNumber() {
+        if (patchSerialNumber == null) {
+            patchSerialNumber = System.currentTimeMillis() + "";
+        }
+        return patchSerialNumber;
+    }
+
+    void setPatchSerialNumber(String patchSerialNumber) {
+        this.patchSerialNumber = patchSerialNumber
+    }
+
 
     public String getPatchPath() {
         if (patchPath == null) {
-            patchPath = getVariantFilePath() + File.separator + PATCH_FILE_NAME + new SimpleDateFormat("-yyyyMMdd-HHmm").format(new Date());
+            patchPath = getVariantFilePath() + File.separator + PATCH_FILE_NAME + getPatchSerialNumber();
         }
         return patchPath;
     }
@@ -134,6 +141,13 @@ public class Patch {
 
     String getCombinedJar() {
         return combinedJar
+    }
+
+
+    public File getPluginConfigFile() {
+        File file = new File(getVariantFilePath() + File.separator + BASIS_FILE_NAME + File.separator + "config.json");
+        IoUtils.mkdir(file);
+        return file;
     }
 
     File getClassFile() {

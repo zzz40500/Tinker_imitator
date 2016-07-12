@@ -6,7 +6,7 @@ package com.dim.bean
 public class DexHolder {
 
 
-    public Map<String, Entity> mCLASSList = new HashMap<>();
+    public Map<String, Entity> dexList = new HashMap<>();
 
 
     public DexHolder(File file) {
@@ -17,7 +17,7 @@ public class DexHolder {
             while ((line = reader.readLine()) != null) {
                 if (line.matches("classes\\d?.dex")) {
                     entity = new Entity(line);
-                    mCLASSList.put(line, entity);
+                    dexList.put(line, entity);
                 } else {
                     if (line.length() > 0)
                         entity.addClassItem(line);
@@ -29,12 +29,12 @@ public class DexHolder {
     }
 
     public Entity getMainClassDex() {
-        return mCLASSList.get("classes.dex");
+        return dexList.get("classes.dex");
 
     }
 
     public void setMainClass(Dex mainClass) {
-        Entity entity = mCLASSList.get("classes.dex");
+        Entity entity = dexList.get("classes.dex");
         if (!entity.equalsClass(mainClass)) {
             entity.hasChange = true;
             for (Object o : mainClass.getAll()) {
@@ -54,7 +54,7 @@ public class DexHolder {
 
     public Entity dexEntityOfClassName(String classname) {
 
-        for (Map.Entry<String, Entity> entityEntry : mCLASSList.entrySet()) {
+        for (Map.Entry<String, Entity> entityEntry : dexList.entrySet()) {
 
             if (entityEntry.getValue().hasClass(classname)) {
                 return entityEntry.getValue();
@@ -92,8 +92,8 @@ public class DexHolder {
             dex.remove(className);
         }
 
-        public void setClass(Dex aClass) {
-            dex = aClass;
+        public void setClass(Dex dex) {
+            this.dex = dex;
         }
     }
 }

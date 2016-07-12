@@ -31,7 +31,7 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
                                   JavaProcessExecutor javaProcessExecutor,
                                   ErrorReporter errorReporter,
                                   ILogger logger,
-                                  boolean verboseExec, Set<String> addParams,Patch patch) {
+                                  boolean verboseExec, Set<String> addParams, Patch patch) {
         super(projectId, createdBy, processExecutor, javaProcessExecutor, errorReporter, logger, verboseExec)
         this.mAddParams = addParams;
         this.patch = patch;
@@ -48,7 +48,7 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
                                 boolean optimize,
                                 ProcessOutputHandler processOutputHandler)
 
-    throws IOException, InterruptedException, ProcessException {
+            throws IOException, InterruptedException, ProcessException {
         Logger.dim("mainDexList : " + mainDexList.absolutePath);
         if (mAddParams != null) {
             if (additionalParameters == null) {
@@ -59,18 +59,23 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
                 additionalParameters += it //'--minimal-main-dex'
             }
         }
-        HookProcessOutputHandler hookProcessOutputHandler=new  HookProcessOutputHandler(processOutputHandler as ParsingProcessOutputHandler,patch,outDexFolder);
+        if (patch == null) {
+            super.convertByteCode(inputs, outDexFolder, multidex, mainDexList, dexOptions,
+                    additionalParameters, incremental, optimize, processOutputHandler);
+        } else {
+            HookProcessOutputHandler hookProcessOutputHandler = new HookProcessOutputHandler(processOutputHandler as ParsingProcessOutputHandler, patch, outDexFolder);
 
-        super.convertByteCode(inputs, outDexFolder, multidex, mainDexList, dexOptions,
-                additionalParameters, incremental, optimize, hookProcessOutputHandler)
+            super.convertByteCode(inputs, outDexFolder, multidex, mainDexList, dexOptions,
+                    additionalParameters, incremental, optimize, hookProcessOutputHandler)
+        }
     }
 
 
-    public static void proxyAndroidBuilder(DexTransform transform, Collection<String> addParams,Patch patch1) {
+    public static void proxyAndroidBuilder(DexTransform transform, Collection<String> addParams, Patch patch1) {
         if (addParams != null && addParams.size() > 0) {
             def get = accessibleField(DexTransform.class, "androidBuilder").get(transform);
             if (!get.getClass().getSimpleName().equals("MultiDexAndroidBuilder")) {
-                def builder = getProxyAndroidBuilder(get, addParams,patch1);
+                def builder = getProxyAndroidBuilder(get, addParams, patch1);
                 accessibleField(DexTransform.class, "androidBuilder")
                         .set(transform, builder)
             }
@@ -78,7 +83,7 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
     }
 
     private static AndroidBuilder getProxyAndroidBuilder(AndroidBuilder orgAndroidBuilder,
-                                                         Collection<String> addParams,Patch patch) {
+                                                         Collection<String> addParams, Patch patch) {
         MultiDexAndroidBuilder myAndroidBuilder = new MultiDexAndroidBuilder(
                 orgAndroidBuilder.mProjectId,
                 orgAndroidBuilder.mCreatedBy,
@@ -86,7 +91,7 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
                 orgAndroidBuilder.mJavaProcessExecutor,
                 orgAndroidBuilder.getErrorReporter(),
                 orgAndroidBuilder.getLogger(),
-                orgAndroidBuilder.mVerboseExec, addParams,patch)
+                orgAndroidBuilder.mVerboseExec, addParams, patch)
 
         myAndroidBuilder.setTargetInfo(
                 orgAndroidBuilder.getSdkInfo(),
@@ -102,4 +107,5 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
         f.setAccessible(true)
         return f;
     }
+
 }

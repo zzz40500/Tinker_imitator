@@ -2,7 +2,7 @@ package com.dim.tinkerape;
 
 import android.support.multidex.MultiDexApplication;
 
-import com.dim.library.Ape;
+import com.dim.library.Tinker;
 
 /**
  * App <br/>
@@ -13,24 +13,6 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Ape.init(this);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        Tinker.init(this);
     }
 }

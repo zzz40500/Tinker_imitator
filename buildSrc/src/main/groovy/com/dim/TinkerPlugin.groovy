@@ -3,6 +3,7 @@ package com.dim
 import com.android.build.api.transform.Format
 import com.android.build.api.transform.Transform
 import com.android.build.gradle.internal.transforms.DexTransform
+import com.dim.bean.Config
 import com.dim.bean.Dex
 import com.dim.bean.DexHolder
 import com.dim.bean.HashRecord
@@ -16,6 +17,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.Dependency
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
@@ -26,22 +28,22 @@ import java.util.jar.JarFile
 class TinkerPlugin implements Plugin<Project> {
 
     private static final String BASIS_DIR = "basis"
+    private static final String PATCH_SERIAL_NUMBER = "serial_number"
     File basisDir
+    Project project;
+    Map<String, Project> allProjectMap = new HashMap<>();
 
-    File getBasisDir(Project project) {
-        if (project.hasProperty(BASIS_DIR)) {
-            def file = new File(project.properties.get(BASIS_DIR) as String);
-            if (!file.exists() || file.isDirectory()) {
-                return null;
-            } else {
-                return file;
-            }
+    public static String getProperty(Project project, String property) {
+        if (project.hasProperty(property)) {
+            return project.getProperties()[property];
         }
         return null;
-
     }
 
-    Project project;
+    def getAndroid() {
+        return project.android
+    }
+
 
     @Override
     void apply(Project project) {
@@ -49,12 +51,17 @@ class TinkerPlugin implements Plugin<Project> {
         project.afterEvaluate {
             project.android.applicationVariants.each { variant ->
 
-                basisDir = getBasisDir(project);
+                String basisPath = getProperty(project, BASIS_DIR);
+                if (basisPath != null) {
+                    basisDir = new File(basisPath);
+                }
                 //todo versionCode 暂时从defaultConfig 中获取
                 Patch patch = new Patch(project.projectDir.getAbsolutePath(), project.android.defaultConfig.versionCode + "", variant.name, (basisDir != null && basisDir.exists()));
-
+                patch.setPatchSerialNumber(getProperty(project, PATCH_SERIAL_NUMBER))
+                Config config = new Config(android.buildToolsVersion, android.compileSdkVersion, android.sdkDirectory.absolutePath, variant.flavorName, variant.buildType.name,);
+                findResPath(project, config, variant)
+                config.save(patch.getPluginConfigFile())
                 def transformClassesWithJarMergingFor = project.tasks["transformClassesWithJarMergingFor${variant.name.capitalize()}"];
-
                 if (transformClassesWithJarMergingFor) {
                     Transform transform = transformClassesWithJarMergingFor.transform
                     def outputProvider = transformClassesWithJarMergingFor.outputStream.asOutput()
@@ -67,6 +74,16 @@ class TinkerPlugin implements Plugin<Project> {
 
                 def transformClassesWithDexFor = project.tasks["transformClassesWithDexFor${variant.name.capitalize()}"];
                 if (transformClassesWithDexFor) {
+
+
+                    String assemblePatch = "assemble${variant.name.capitalize()}Patch";
+                    Logger.dim(assemblePatch);
+                    project.task(assemblePatch) << {
+                        Logger.dim(assemblePatch);
+                    }
+                    def assemblePatchTask = project.tasks[assemblePatch];
+                    assemblePatchTask.dependsOn transformClassesWithDexFor;
+
                     DexTransform dexTransform = transformClassesWithDexFor.transform
                     if (dexTransform) {
                         transformClassesWithDexFor.doFirst {
@@ -96,15 +113,40 @@ class TinkerPlugin implements Plugin<Project> {
                                     from fileAdtMainList
                                     into patch.basisFile
                                 }
+                                def mapFile = new File("${project.buildDir}/outputs/mapping/${variant.dirName}/mapping.txt")
+                                if (mapFile.exists() && !patch.mappingFile.exists()) {
+                                    FileUtils.copyFile(mapFile, patch.mappingFile)
+                                }
+                                def rFile = new File("${project.buildDir}/generated/source/r/${variant.dirName}");
+                                File targetRFile = patch.RFile;
+                                if (rFile.exists() && targetRFile.listFiles() != null) {
+                                    FileUtils.copyDirectory(rFile, targetRFile);
+                                }
                             } else {
 
-                                Logger.dim("----开始--")
-                                File fileAdtMainList = dexTransform.mainDexListFile
-                                HashRecord hashRecord = new HashRecord(patch.hashFile);
-                                DexHolder classHolder = new DexHolder(patch.dexInfoFile);
-                                Dex cl = new Dex(fileAdtMainList);
-                                classHolder.setMainClass(cl);
-                                createDex(patch, classHolder, hashRecord, new File(patch.combinedJar));
+                                if (basisDir != null) {
+                                    Logger.dim("----开始--")
+                                    File fileAdtMainList = dexTransform.mainDexListFile
+                                    HashRecord hashRecord = new HashRecord(patch.hashFile);
+                                    DexHolder classHolder = new DexHolder(patch.dexInfoFile);
+                                    Dex cl = new Dex(fileAdtMainList);
+                                    classHolder.setMainClass(cl);
+                                    createDex(patch, classHolder, hashRecord, new File(patch.combinedJar));
+
+                                }else{
+                                    dexTransform.secondaryFileInputs
+                                    Set<String> addParams = new HashSet<>();
+                                    File fileAdtMainList = dexTransform.mainDexListFile
+
+                                    addParams.add("--main-dex-list=" + fileAdtMainList.absolutePath);
+                                    addParams.add("--minimal-main-dex");
+                                    //每个dex 最多40k 为后面添加留下空间.
+                                    addParams.add("--set-max-idx-number=400000");
+                                    addParams.add("--verbose");
+                                    // 替换 AndroidBuilder
+                                    MultiDexAndroidBuilder.proxyAndroidBuilder(dexTransform,
+                                            addParams, null)
+                                }
                             }
                         }
 
@@ -143,23 +185,17 @@ class TinkerPlugin implements Plugin<Project> {
             file.close();
         }
 
-        classHolder.mCLASSList.values().each {
-
+        classHolder.dexList.values().each {
             if (it.hasChange) {
                 dex(project, new File(patch.getPatchPath() + File.separator
                         + it.dexName), patch.getPatchPath());
 
-//                new File(patch.dexInfoFile.absolutePath + File.separator + "classes.dex").renameTo((it.dexName + ".dex"));
-//                Logger.dim(patch.dexInfoFile.absolutePath + File.separator + it.dexName + ".dex");
-//                Logger.dim(patch.getPatchPath() + File.separator + it.dexName + ".dex")
-//                Logger.dim(patch.getPatchPath() + File.separator + it.dexName + "patch.dex")
-//                DiffUtils.genDiff(patch.dexInfoFile.absolutePath + File.separator + it.dexName + ".dex",
-//                        patch.getPatchPath() + File.separator + it.dexName + ".dex",
-//                        patch.getPatchPath() + File.separator + it.dexName + "patch.dex");
-
+                new File(patch.dexInfoFile.absolutePath + File.separator + "classes.dex").renameTo((it.dexName + ".dex"));
+//                File old = new File(patch.classFile.absolutePath + File.separator + it.dexName + ".dex");
+//                File newP = new File(patch.getPatchPath() + File.separator + it.dexName + ".dex");
+//                File patchF = new File(patch.getPatchPath() + File.separator + it.dexName + "patch.dex");
             }
         }
-
 
     }
 
@@ -216,6 +252,70 @@ class TinkerPlugin implements Plugin<Project> {
                 inputStream.close();
             }
             file.close();
+        }
+    }
+    /**
+     * 生成配置文件,给as 插件使用.
+     * @param baseVariant
+     */
+    def findResPath(Project project, Config config, def variant) {
+
+        //找到本身的res   靠前资源覆盖后面的资源
+        findResPath(variant, config)
+        if (project.configurations.hasProperty("compile")) {
+            project.configurations.compile.dependencies.findAll {
+                findDependencyProject(it, config)
+            }
+        }
+        Logger.dim("${variant.name}Compile   : " + project.configurations.hasProperty("${variant.name}Compile"))
+        if (project.configurations.hasProperty("${variant.name}Compile")) {
+            project.configurations.getByName("${variant.name}Compile").dependencies.findAll {
+                findDependencyProject(it, config)
+            }
+        }
+
+    }
+
+    private void findDependencyProject(Dependency it, Config config) {
+        if (it.hasProperty('dependencyProject')) {
+            def dependenciesP = allProjectMap.get(it.name);
+            if (dependenciesP != null) {
+                String buildType = "release";
+                def configuration = it.properties.get("configuration");
+                if (configuration != null && !configuration.equals("default")) {
+                    buildType = configuration;
+                } else {
+                    if (dependenciesP.hasProperty("android")) {
+                        def android = dependenciesP.properties.get("android");
+                        if (android.hasProperty("defaultPublishConfig")) {
+                            buildType = android.properties.get("defaultPublishConfig");
+                        }
+                    }
+
+                }
+                def android = dependenciesP.properties.get("android");
+                if (android != null && android.hasProperty("libraryVariants")) {
+                    android.libraryVariants.all { bv ->
+                        if (bv.name.equals(buildType)) {
+                            findResPath(dependenciesP, config, bv)
+                        }
+                    }
+                } else {
+                    //添加默认的res地址
+                    config.addResPath(dependenciesP.getProjectDir().absolutePath + "/src/main/res");
+                }
+            }
+        }
+    }
+
+    static void findResPath(def variant, Config config) {
+        for (int i = variant.sourceSets.size() - 1; i >= 0; i--) {
+            Collection directories = variant.sourceSets.get(i).resDirectories
+            for (int j = directories.size() - 1; j >= 0; j--) {
+                String resPath = directories.getAt(j).absolutePath
+                Logger.dim resPath
+                config.addResPath(resPath)
+            }
         }
     }
 
