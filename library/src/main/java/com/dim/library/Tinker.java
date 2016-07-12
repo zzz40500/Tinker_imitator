@@ -17,7 +17,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -53,14 +55,20 @@ public class Tinker {
 
     }
 
-    public static void install() {
+    public static List<String> install() {
         File hotFile = new File(Environment.getExternalStorageDirectory() + "/hot");
+
+        List<String> result = new ArrayList<>();
         for (File file : hotFile.listFiles()) {
-            install(file);
+            boolean install = install(file);
+            if (install) {
+                result.add(file.getAbsolutePath());
+            }
         }
+        return result;
     }
 
-    public static void install(File file) {
+    public static boolean install(File file) {
 
         if (file.getName().matches("patchclasses\\d?.dex")) {
             String classDex = file.getName().substring(5);
@@ -70,11 +78,17 @@ public class Tinker {
                 Logger.d(TAG, oldDex.getPath());
                 Logger.d(TAG, file.getPath());
                 Logger.d(TAG, newDex.getPath());
-                Bsdiff.bspatch(oldDex.getPath(),  newDex.getPath(),file.getPath());
-                file.delete();
-                Logger.d(TAG, "install success " + file);
+                int bspatch = Bsdiff.bspatch(oldDex.getPath(), newDex.getPath(), file.getPath());
+                if (bspatch == 0) {
+                    Logger.d(TAG, "install success " + file);
+                    file.delete();
+                    return true;
+                }
+
             }
+
         }
+        return false;
 
     }
 
