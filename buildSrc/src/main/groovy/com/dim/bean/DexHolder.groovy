@@ -5,9 +5,7 @@ package com.dim.bean
  */
 public class DexHolder {
 
-
     public Map<String, Entity> dexList = new HashMap<>();
-
 
     public DexHolder(File file) {
         try {
@@ -30,7 +28,6 @@ public class DexHolder {
 
     public Entity getMainClassDex() {
         return dexList.get("classes.dex");
-
     }
 
     public void setMainClass(Dex mainClass) {
@@ -55,7 +52,6 @@ public class DexHolder {
     public Entity dexEntityOfClassName(String classname) {
 
         for (Map.Entry<String, Entity> entityEntry : dexList.entrySet()) {
-
             if (entityEntry.getValue().hasClass(classname)) {
                 return entityEntry.getValue();
             }
@@ -69,6 +65,7 @@ public class DexHolder {
         public boolean hasChange;
         public Dex dex;
         public String dexName;
+
         public Entity(String dexFile) {
             dex = new Dex();
             this.dexFile = dexFile;
@@ -86,7 +83,6 @@ public class DexHolder {
         public boolean hasClass(String className) {
             return dex.contains(className);
         }
-
 
         public void remove(String className) {
             dex.remove(className);

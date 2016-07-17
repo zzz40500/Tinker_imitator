@@ -8,9 +8,7 @@ import org.apache.commons.io.FileUtils
  */
 public class Dex {
 
-
     public Set<String> classs = new HashSet<>();
-
 
     public Dex(File patch) {
         try {

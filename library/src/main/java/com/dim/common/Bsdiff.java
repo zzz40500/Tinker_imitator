@@ -6,7 +6,6 @@ package com.dim.common;
  */
 public class Bsdiff {
 
-
     static {
         System.loadLibrary("bsdiff");
     }

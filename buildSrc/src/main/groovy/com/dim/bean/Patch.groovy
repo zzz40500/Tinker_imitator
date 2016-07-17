@@ -1,12 +1,12 @@
 package com.dim.bean
 
 import com.dim.common.IoUtils
+
 /**
  * PatchBean <br/>
  * Created by dim on 2016-06-19.
  */
 public class Patch {
-
 
     public static final String ROOT_NAME = "patch";
     public static final String PATCH_FILE_NAME = "patch";
@@ -142,7 +142,6 @@ public class Patch {
     String getCombinedJar() {
         return combinedJar
     }
-
 
     public File getPluginConfigFile() {
         File file = new File(getVariantFilePath() + File.separator + BASIS_FILE_NAME + File.separator + "config.json");

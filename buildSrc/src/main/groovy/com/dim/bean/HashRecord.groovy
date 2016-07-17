@@ -1,12 +1,5 @@
 package com.dim.bean;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * HashRecord <br/>
@@ -14,9 +7,7 @@ import java.util.Map;
  */
 public class HashRecord {
 
-
     public Map<String, String> map = new HashMap<>();
-
 
     public static String getItemString(String path, String hash) {
         return String.format("%s:%s\n", path, hash);

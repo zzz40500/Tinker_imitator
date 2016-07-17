@@ -17,6 +17,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.InvalidUserDataException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.artifacts.Dependency
 
 import java.util.jar.JarEntry
@@ -44,7 +45,6 @@ class TinkerPlugin implements Plugin<Project> {
         return project.android
     }
 
-
     @Override
     void apply(Project project) {
         this.project = project;
@@ -59,27 +59,58 @@ class TinkerPlugin implements Plugin<Project> {
                 Patch patch = new Patch(project.projectDir.getAbsolutePath(), project.android.defaultConfig.versionCode + "", variant.name, (basisDir != null && basisDir.exists()));
                 patch.setPatchSerialNumber(getProperty(project, PATCH_SERIAL_NUMBER))
                 Config config = new Config(android.buildToolsVersion, android.compileSdkVersion, android.sdkDirectory.absolutePath, variant.flavorName, variant.buildType.name,);
+
+                boolean minifyEnabled = variant.buildType.minifyEnabled
+                if (minifyEnabled) {
+                    String transformClassesAndResourcesWithProguardForName = "transformClassesAndResourcesWithProguardFor${variant.name.capitalize()}";
+                    def transformClassesAndResourcesWithProguardForTask = project.tasks.findByName(transformClassesAndResourcesWithProguardForName);
+                    if (transformClassesAndResourcesWithProguardForTask) {
+                        Transform transform = transformClassesAndResourcesWithProguardForTask.transform
+                        def outputProvider = transformClassesAndResourcesWithProguardForTask.outputStream.asOutput()
+                        String mergedJar = outputProvider.getContentLocation("main",
+                                transform.getOutputTypes(),
+                                transform.getScopes(), Format.JAR)
+                        patch.setCombinedJar(mergedJar);
+                    }else{
+                        Logger.dim("task ${transformClassesAndResourcesWithProguardForName} not found ")
+                        return ;
+                    }
+                } else {
+                    def transformClassesWithJarMergingFor = project.tasks["transformClassesWithJarMergingFor${variant.name.capitalize()}"];
+                    if (transformClassesWithJarMergingFor) {
+                        Transform transform = transformClassesWithJarMergingFor.transform
+                        def outputProvider = transformClassesWithJarMergingFor.outputStream.asOutput()
+                        String mergedJar = outputProvider.getContentLocation("combined",
+                                transform.getOutputTypes(),
+                                transform.getScopes(), Format.JAR)
+                        patch.setCombinedJar(mergedJar);
+                    }else{
+                        Logger.dim("task transformClassesWithJarMergingFor${variant.name.capitalize()} not found ")
+                        return ;
+                    }
+                }
                 findResPath(project, config, variant)
                 config.save(patch.getPluginConfigFile())
-                def transformClassesWithJarMergingFor = project.tasks["transformClassesWithJarMergingFor${variant.name.capitalize()}"];
-                if (transformClassesWithJarMergingFor) {
-                    Transform transform = transformClassesWithJarMergingFor.transform
-                    def outputProvider = transformClassesWithJarMergingFor.outputStream.asOutput()
-                    String mergedJar = outputProvider.getContentLocation("combined",
-                            transform.getOutputTypes(),
-                            transform.getScopes(), Format.JAR)
-                    Logger.dim(mergedJar);
-                    patch.setCombinedJar(mergedJar);
+                if (basisDir != null && minifyEnabled) {
+                    //适应mapping
+                    String buildTypeName = variant.buildType.name;
+                    def buildType = android.buildTypes.properties["asMap"][buildTypeName];
+                    List<File> proguardFiles = buildType.proguardFiles;
+                    if (proguardFiles.size() > 0) {
+
+                        if (proguardFiles.size() > 1) {
+                            proguardFiles.set(1, new File(basisDir.absolutePath + "/" + Patch.BASIS_FILE_NAME + "/" + "proguard-mapping.pro"));
+                        } else {
+                            proguardFiles.set(0, new File(basisDir.absolutePath + "/" + Patch.BASIS_FILE_NAME + "/" + "proguard-mapping.pro"));
+                        }
+                    }
                 }
 
-                def transformClassesWithDexFor = project.tasks["transformClassesWithDexFor${variant.name.capitalize()}"];
-                if (transformClassesWithDexFor) {
-
-
+                def transformClassesWithDexFor = project.tasks.findByName("transformClassesWithDexFor${variant.name.capitalize()}");
+                if (transformClassesWithDexFor ) {
                     String assemblePatch = "assemble${variant.name.capitalize()}Patch";
                     Logger.dim(assemblePatch);
                     project.task(assemblePatch) << {
-                        Logger.dim(assemblePatch);
                     }
                     def assemblePatchTask = project.tasks[assemblePatch];
                     assemblePatchTask.dependsOn transformClassesWithDexFor;
@@ -89,18 +120,18 @@ class TinkerPlugin implements Plugin<Project> {
                         transformClassesWithDexFor.doFirst {
                             if (!patch.mainDexListFile.exists()) {
                                 // 记录hash值;
-                                Logger.dim("记录hash值")
                                 if (!patch.hashFile.exists()) {
                                     patch.hashFile.createNewFile();
                                 } else {
                                     patch.hashFile.delete();
                                     patch.hashFile.createNewFile();
                                 }
-                                dexTransform.secondaryFileInputs
                                 Set<String> addParams = new HashSet<>();
                                 File fileAdtMainList = dexTransform.mainDexListFile
+                                if(fileAdtMainList != null){
+                                    addParams.add("--main-dex-list=" + fileAdtMainList.absolutePath);
 
-                                addParams.add("--main-dex-list=" + fileAdtMainList.absolutePath);
+                                }
                                 addParams.add("--minimal-main-dex");
                                 //每个dex 最多40k 为后面添加留下空间.
                                 addParams.add("--set-max-idx-number=400000");
@@ -108,14 +139,20 @@ class TinkerPlugin implements Plugin<Project> {
                                 // 替换 AndroidBuilder
                                 MultiDexAndroidBuilder.proxyAndroidBuilder(dexTransform,
                                         addParams, patch)
-                                processJar(patch.hashFile, new File(patch.combinedJar));
-                                project.copy {
-                                    from fileAdtMainList
-                                    into patch.basisFile
+                                if(patch.combinedJar !=null){
+                                    processJar(patch.hashFile, new File(patch.combinedJar));
+                                }
+                                if(fileAdtMainList != null){
+                                    project.copy {
+                                        from fileAdtMainList
+                                        into patch.basisFile
+                                    }
                                 }
                                 def mapFile = new File("${project.buildDir}/outputs/mapping/${variant.dirName}/mapping.txt")
                                 if (mapFile.exists() && !patch.mappingFile.exists()) {
                                     FileUtils.copyFile(mapFile, patch.mappingFile)
+                                    File mappingProguardFile = new File(patch.mappingFile.getParent(), "proguard-mapping.pro")
+                                    FileUtils.writeStringToFile(mappingProguardFile, "-applymapping ${patch.mappingFile.absolutePath}\n-dontwarn **")
                                 }
                                 def rFile = new File("${project.buildDir}/generated/source/r/${variant.dirName}");
                                 File targetRFile = patch.RFile;
@@ -124,16 +161,7 @@ class TinkerPlugin implements Plugin<Project> {
                                 }
                             } else {
 
-                                if (basisDir != null) {
-                                    Logger.dim("----开始--")
-                                    File fileAdtMainList = dexTransform.mainDexListFile
-                                    HashRecord hashRecord = new HashRecord(patch.hashFile);
-                                    DexHolder classHolder = new DexHolder(patch.dexInfoFile);
-                                    Dex cl = new Dex(fileAdtMainList);
-                                    classHolder.setMainClass(cl);
-                                    createDex(patch, classHolder, hashRecord, new File(patch.combinedJar));
-
-                                }else{
+                                if (basisDir == null) {
                                     dexTransform.secondaryFileInputs
                                     Set<String> addParams = new HashSet<>();
                                     File fileAdtMainList = dexTransform.mainDexListFile
@@ -148,6 +176,18 @@ class TinkerPlugin implements Plugin<Project> {
                                             addParams, null)
                                 }
                             }
+
+                        }
+                        assemblePatchTask << {
+                            if(patch.getCombinedJar() != null){
+                                Logger.dim("开始生成插件")
+                                File fileAdtMainList = dexTransform.mainDexListFile
+                                HashRecord hashRecord = new HashRecord(patch.hashFile);
+                                DexHolder classHolder = new DexHolder(patch.dexInfoFile);
+                                Dex cl = new Dex(fileAdtMainList);
+                                classHolder.setMainClass(cl);
+                                createDex(patch, classHolder, hashRecord, new File(patch.combinedJar));
+                            }
                         }
 
                     }
@@ -159,7 +199,6 @@ class TinkerPlugin implements Plugin<Project> {
 
     def createDex(Patch patch, DexHolder classHolder, HashRecord hashRecord, File jarFile) {
         if (jarFile) {
-            Logger.dim("createDex:" + jarFile.absolutePath)
             def file = new JarFile(jarFile);
             DexHolder.Entity mainEntity = classHolder.getMainClassDex();
             Enumeration enumeration = file.entries();
@@ -179,6 +218,7 @@ class TinkerPlugin implements Plugin<Project> {
                 FileUtils.writeByteArrayToFile(targetFile, byteArray);
                 if (hashRecord.hasChange(entryName, hash)) {
                     dexEntity.hasChange = true;
+                    Logger.dim("change : " + entryName)
                 }
                 inputStream.close();
             }
@@ -191,9 +231,6 @@ class TinkerPlugin implements Plugin<Project> {
                         + it.dexName), patch.getPatchPath());
 
                 new File(patch.dexInfoFile.absolutePath + File.separator + "classes.dex").renameTo((it.dexName + ".dex"));
-//                File old = new File(patch.classFile.absolutePath + File.separator + it.dexName + ".dex");
-//                File newP = new File(patch.getPatchPath() + File.separator + it.dexName + ".dex");
-//                File patchF = new File(patch.getPatchPath() + File.separator + it.dexName + "patch.dex");
             }
         }
 
@@ -203,7 +240,6 @@ class TinkerPlugin implements Plugin<Project> {
     public static dex(Project project, File classDir, String patchFileName) {
         if (classDir.listFiles().size()) {
             def sdkDir
-
             Properties properties = new Properties()
             File localProps = project.rootProject.file("local.properties")
             if (localProps.exists()) {
@@ -267,7 +303,6 @@ class TinkerPlugin implements Plugin<Project> {
                 findDependencyProject(it, config)
             }
         }
-        Logger.dim("${variant.name}Compile   : " + project.configurations.hasProperty("${variant.name}Compile"))
         if (project.configurations.hasProperty("${variant.name}Compile")) {
             project.configurations.getByName("${variant.name}Compile").dependencies.findAll {
                 findDependencyProject(it, config)
@@ -313,7 +348,6 @@ class TinkerPlugin implements Plugin<Project> {
             Collection directories = variant.sourceSets.get(i).resDirectories
             for (int j = directories.size() - 1; j >= 0; j--) {
                 String resPath = directories.getAt(j).absolutePath
-                Logger.dim resPath
                 config.addResPath(resPath)
             }
         }

@@ -11,7 +11,6 @@ import com.android.ide.common.process.ProcessExecutor
 import com.android.ide.common.process.ProcessOutputHandler
 import com.android.utils.ILogger
 import com.dim.bean.Patch
-import com.dim.common.Logger
 
 import java.lang.reflect.Field
 
@@ -49,13 +48,11 @@ public class MultiDexAndroidBuilder extends AndroidBuilder {
                                 ProcessOutputHandler processOutputHandler)
 
             throws IOException, InterruptedException, ProcessException {
-        Logger.dim("mainDexList : " + mainDexList.absolutePath);
         if (mAddParams != null) {
             if (additionalParameters == null) {
                 additionalParameters = []
             }
             mAddParams.each {
-                Logger.dim("additionalParameters ---- " + it)
                 additionalParameters += it //'--minimal-main-dex'
             }
         }
