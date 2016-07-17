@@ -71,9 +71,9 @@ class TinkerPlugin implements Plugin<Project> {
                                 transform.getOutputTypes(),
                                 transform.getScopes(), Format.JAR)
                         patch.setCombinedJar(mergedJar);
-                    }else{
+                    } else {
                         Logger.dim("task ${transformClassesAndResourcesWithProguardForName} not found ")
-                        return ;
+                        return;
                     }
                 } else {
                     def transformClassesWithJarMergingFor = project.tasks["transformClassesWithJarMergingFor${variant.name.capitalize()}"];
@@ -84,9 +84,9 @@ class TinkerPlugin implements Plugin<Project> {
                                 transform.getOutputTypes(),
                                 transform.getScopes(), Format.JAR)
                         patch.setCombinedJar(mergedJar);
-                    }else{
+                    } else {
                         Logger.dim("task transformClassesWithJarMergingFor${variant.name.capitalize()} not found ")
-                        return ;
+                        return;
                     }
                 }
                 findResPath(project, config, variant)
@@ -107,7 +107,7 @@ class TinkerPlugin implements Plugin<Project> {
                 }
 
                 def transformClassesWithDexFor = project.tasks.findByName("transformClassesWithDexFor${variant.name.capitalize()}");
-                if (transformClassesWithDexFor ) {
+                if (transformClassesWithDexFor) {
                     String assemblePatch = "assemble${variant.name.capitalize()}Patch";
                     Logger.dim(assemblePatch);
                     project.task(assemblePatch) << {
@@ -128,7 +128,7 @@ class TinkerPlugin implements Plugin<Project> {
                                 }
                                 Set<String> addParams = new HashSet<>();
                                 File fileAdtMainList = dexTransform.mainDexListFile
-                                if(fileAdtMainList != null){
+                                if (fileAdtMainList != null) {
                                     addParams.add("--main-dex-list=" + fileAdtMainList.absolutePath);
 
                                 }
@@ -139,10 +139,10 @@ class TinkerPlugin implements Plugin<Project> {
                                 // 替换 AndroidBuilder
                                 MultiDexAndroidBuilder.proxyAndroidBuilder(dexTransform,
                                         addParams, patch)
-                                if(patch.combinedJar !=null){
+                                if (patch.combinedJar != null) {
                                     processJar(patch.hashFile, new File(patch.combinedJar));
                                 }
-                                if(fileAdtMainList != null){
+                                if (fileAdtMainList != null) {
                                     project.copy {
                                         from fileAdtMainList
                                         into patch.basisFile
@@ -179,7 +179,7 @@ class TinkerPlugin implements Plugin<Project> {
 
                         }
                         assemblePatchTask << {
-                            if(patch.getCombinedJar() != null){
+                            if (patch.getCombinedJar() != null) {
                                 Logger.dim("开始生成插件")
                                 File fileAdtMainList = dexTransform.mainDexListFile
                                 HashRecord hashRecord = new HashRecord(patch.hashFile);
@@ -229,8 +229,11 @@ class TinkerPlugin implements Plugin<Project> {
             if (it.hasChange) {
                 dex(project, new File(patch.getPatchPath() + File.separator
                         + it.dexName), patch.getPatchPath());
-
-                new File(patch.dexInfoFile.absolutePath + File.separator + "classes.dex").renameTo((it.dexName + ".dex"));
+                File old = new File(patch.patchPath + File.separator + "classes.dex");
+                File rname = new File(patch.patchPath + File.separator + it.dexName + ".dex");
+                boolean to = old.renameTo(rname);
+                Logger.dim(" "+old.exists()+ " -> "+rname.exists() );
+                Logger.dim(old.getAbsolutePath()+ " -> "+rname.getAbsolutePath() + "   "+to);
             }
         }
 
