@@ -17,15 +17,15 @@ mac 端命令:
 ```
  brew install bsdiff
 ```
-linux端命令:
+linux端命令:  
 ```
 brew install bsdiff
 ```
 Windows:  
 使用cygwin安装  
 然后将bsdiff 安装的位置写入local.properties  
-![Paste_Image.png](http://upload-images.jianshu.io/upload_images/166866-f9936846f287b6a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-mac 端不写.默认为/usr/local/bin/bsdiff
+![Paste_Image.png](http://upload-images.jianshu.io/upload_images/166866-f9936846f287b6a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+mac 端不写.默认为/usr/local/bin/bsdiff  
 linux 和Windows要写.  
 >注意  我只测试了mac 的使用.  
 
@@ -37,28 +37,28 @@ linux 和Windows要写.
 这里暂时不支持使用instant run 的情况. 所以你要关闭instant run   
 关闭方式:自行google|bing  
 第一次编译:  
-![第一次运行](http://upload-images.jianshu.io/upload_images/166866-de367ac222ea7518.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![第一次运行](http://upload-images.jianshu.io/upload_images/166866-de367ac222ea7518.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 编译完成会产生几个文件:  
 
-![产生的文件.png](http://upload-images.jianshu.io/upload_images/166866-9d080c1b95d2e408.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-然后修改代码:  
+![产生的文件.png](http://upload-images.jianshu.io/upload_images/166866-9d080c1b95d2e408.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+然后修改代码:    
 打补丁包:  
 
-![补丁包运行.png](http://upload-images.jianshu.io/upload_images/166866-3b7319b26baee7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![补丁包运行.png](http://upload-images.jianshu.io/upload_images/166866-3b7319b26baee7c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 会有下列产物:  
 
-![patch产物.png](http://upload-images.jianshu.io/upload_images/166866-cf7b5fa7772f962c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![patch产物.png](http://upload-images.jianshu.io/upload_images/166866-cf7b5fa7772f962c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 patchclasses.dex 是生成的patch dex. 如果你连接手机的话,ide插件会帮你push 到手机的/sdcard/hot/中    
 classes和class2 分别对应apk 中的classes.dex和classes2.dex.  
-log 是运行日志. 你可以直接安装运行日志用命令行执行,而不使用我提供的插件     
+log 是运行日志. 你可以直接使用日志中的命令执行,而不使用我提供的插件     
 
 ##查看效果:  
 方式一: app 重启  
 方式二: 点击app 的内部的热修复按钮.  
 
-##4. 不足:
-1. 热修复. 需要重启
-* 只是代码级别的热修复. 不支持资源的替换.修改代码的时候不能新增资源id.
+##4. 不足:  
+1. 热修复. 需要重启  
+* 只是代码级别的热修复. 不支持资源的替换.修改代码的时候不能新增资源id.  
 * 如果改变了两个dex里面的东西的话,那么占得内存就有点大了 
 
 
