@@ -1,0 +1,234 @@
+:copy: copy directory /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/basis/r-> /Users/dim/github/Tinker_imitator/app/build/generated/source/r/debug
+copy  success
+command : cd /Users/dim/github/Tinker_imitator 
+./gradlew assembledebugPatch -P basis=/Users/dim/github/Tinker_imitator/app/patch/version_1/debug  -P serial_number=-20160718-0258 --stacktrace
+:buildSrc:compileJava UP-TO-DATE
+:buildSrc:compileGroovy UP-TO-DATE
+:buildSrc:processResources UP-TO-DATE
+:buildSrc:classes UP-TO-DATE
+:buildSrc:jar UP-TO-DATE
+:buildSrc:assemble UP-TO-DATE
+:buildSrc:compileTestJava UP-TO-DATE
+:buildSrc:compileTestGroovy UP-TO-DATE
+:buildSrc:processTestResources UP-TO-DATE
+:buildSrc:testClasses UP-TO-DATE
+:buildSrc:test UP-TO-DATE
+:buildSrc:check UP-TO-DATE
+:buildSrc:build UP-TO-DATE
+Incremental java compilation is an incubating feature.
+save  ---> /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/basis/config.json
+assembleDebugPatch
+save  ---> /Users/dim/github/Tinker_imitator/app/patch/version_1/release/basis/config.json
+assembleReleasePatch
+:app:preBuild UP-TO-DATE
+:app:preDebugBuild UP-TO-DATE
+:app:checkDebugManifest
+:app:preReleaseBuild UP-TO-DATE
+:library:preBuild UP-TO-DATE
+:library:preReleaseBuild UP-TO-DATE
+:library:compileReleaseNdk UP-TO-DATE
+:library:compileLint
+:library:copyReleaseLint UP-TO-DATE
+:library:checkReleaseManifest
+:library:preDebugAndroidTestBuild UP-TO-DATE
+:library:preDebugBuild UP-TO-DATE
+:library:preDebugUnitTestBuild UP-TO-DATE
+:library:preReleaseUnitTestBuild UP-TO-DATE
+:library:prepareComAndroidSupportAnimatedVectorDrawable2340Library UP-TO-DATE
+:library:prepareComAndroidSupportAppcompatV72340Library UP-TO-DATE
+:library:prepareComAndroidSupportRecyclerviewV72340Library UP-TO-DATE
+:library:prepareComAndroidSupportSupportV42340Library UP-TO-DATE
+:library:prepareComAndroidSupportSupportVectorDrawable2340Library UP-TO-DATE
+:library:prepareReleaseDependencies
+:library:compileReleaseAidl UP-TO-DATE
+:library:compileReleaseRenderscript UP-TO-DATE
+:library:generateReleaseBuildConfig UP-TO-DATE
+:library:mergeReleaseShaders UP-TO-DATE
+:library:compileReleaseShaders UP-TO-DATE
+:library:generateReleaseAssets UP-TO-DATE
+:library:mergeReleaseAssets UP-TO-DATE
+:library:generateReleaseResValues UP-TO-DATE
+:library:generateReleaseResources UP-TO-DATE
+:library:mergeReleaseResources UP-TO-DATE
+:library:processReleaseManifest UP-TO-DATE
+:library:processReleaseResources UP-TO-DATE
+:library:generateReleaseSources UP-TO-DATE
+:library:incrementalReleaseJavaCompilationSafeguard UP-TO-DATE
+:library:compileReleaseJavaWithJavac UP-TO-DATE
+:library:extractReleaseAnnotations UP-TO-DATE
+:library:mergeReleaseProguardFiles UP-TO-DATE
+:library:packageReleaseRenderscript UP-TO-DATE
+:library:packageReleaseResources UP-TO-DATE
+:library:processReleaseJavaRes UP-TO-DATE
+:library:transformResourcesWithMergeJavaResForRelease UP-TO-DATE
+:library:transformClassesAndResourcesWithSyncLibJarsForRelease UP-TO-DATE
+:library:mergeReleaseJniLibFolders UP-TO-DATE
+:library:transformNative_libsWithMergeJniLibsForRelease UP-TO-DATE
+:library:transformNative_libsWithSyncJniLibsForRelease UP-TO-DATE
+:library:bundleRelease UP-TO-DATE
+:app:prepareComAndroidSupportAnimatedVectorDrawable2340Library UP-TO-DATE
+:app:prepareComAndroidSupportAppcompatV72340Library UP-TO-DATE
+:app:prepareComAndroidSupportDesign2340Library UP-TO-DATE
+:app:prepareComAndroidSupportMultidex101Library UP-TO-DATE
+:app:prepareComAndroidSupportRecyclerviewV72340Library UP-TO-DATE
+:app:prepareComAndroidSupportSupportV42340Library UP-TO-DATE
+:app:prepareComAndroidSupportSupportVectorDrawable2340Library UP-TO-DATE
+:app:prepareTinker_imitatorLibraryUnspecifiedLibrary UP-TO-DATE
+:app:prepareDebugDependencies
+:app:compileDebugAidl UP-TO-DATE
+:app:compileDebugRenderscript UP-TO-DATE
+:app:generateDebugBuildConfig UP-TO-DATE
+:app:mergeDebugShaders UP-TO-DATE
+:app:compileDebugShaders UP-TO-DATE
+:app:generateDebugAssets UP-TO-DATE
+:app:mergeDebugAssets UP-TO-DATE
+:app:generateDebugResValues UP-TO-DATE
+:app:generateDebugResources UP-TO-DATE
+:app:mergeDebugResources UP-TO-DATE
+:app:processDebugManifest UP-TO-DATE
+:app:processDebugResources UP-TO-DATE
+:app:generateDebugSources UP-TO-DATE
+:app:incrementalDebugJavaCompilationSafeguard UP-TO-DATE
+:app:compileDebugJavaWithJavac
+Incremental compilation of 1 classes completed in 1.887 secs.
+:app:processDebugJavaRes UP-TO-DATE
+:app:transformResourcesWithMergeJavaResForDebug UP-TO-DATE
+:app:transformClassesAndResourcesWithProguardForDebug
+ProGuard, version 5.2.1
+Reading input...
+Reading program jar [/Users/Shared/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar] (filtered)
+Reading program jar [/Users/dim/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/1.4/a8762d07e76cfde2395257a5da47ba7c1dbd3dce/commons-io-1.4.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/design/23.4.0/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/Tinker_imitator/library/unspecified/jars/classes.jar] (filtered)
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/transforms/mergeJavaRes/debug/jars/2/1f/main.jar] (filtered)
+Reading program directory [/Users/dim/github/Tinker_imitator/app/build/intermediates/classes/debug] (filtered)
+Reading library jar [/Users/Shared/Android/sdk/platforms/android-23/android.jar]
+Reading library jar [/Users/Shared/Android/sdk/platforms/android-23/optional/org.apache.http.legacy.jar]
+Note: duplicate definition of library class [android.net.http.SslCertificate]
+Note: duplicate definition of library class [android.net.http.SslError]
+Note: duplicate definition of library class [android.net.http.SslCertificate$DName]
+Note: duplicate definition of library class [org.apache.http.conn.scheme.SocketFactory]
+Note: duplicate definition of library class [org.apache.http.conn.scheme.HostNameResolver]
+Note: duplicate definition of library class [org.apache.http.conn.ConnectTimeoutException]
+Note: duplicate definition of library class [org.apache.http.params.HttpParams]
+Initializing...
+Ignoring unused library classes...
+  Original number of library classes: 3880
+  Final number of library classes:    948
+Printing kept classes, fields, and methods...
+Shrinking...
+Printing usage to [/Users/dim/github/Tinker_imitator/app/build/outputs/mapping/debug/usage.txt]...
+Removing unused program classes and class elements...
+  Original number of program classes: 1976
+  Final number of program classes:    934
+Obfuscating...
+Applying mapping [/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/basis/mapping.txt]
+Printing mapping to [/Users/dim/github/Tinker_imitator/app/build/outputs/mapping/debug/mapping.txt]...
+Writing output...
+Preparing output jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/transforms/proguard/debug/jars/3/1f/main.jar]
+  Copying resources from program jar [/Users/Shared/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar] (filtered)
+  Copying resources from program jar [/Users/dim/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/1.4/a8762d07e76cfde2395257a5da47ba7c1dbd3dce/commons-io-1.4.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/design/23.4.0/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/exploded-aar/Tinker_imitator/library/unspecified/jars/classes.jar] (filtered)
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/transforms/mergeJavaRes/debug/jars/2/1f/main.jar] (filtered)
+  Copying resources from program directory [/Users/dim/github/Tinker_imitator/app/build/intermediates/classes/debug] (filtered)
+Printing classes to [/Users/dim/github/Tinker_imitator/app/build/outputs/mapping/debug/dump.txt]...
+:app:collectDebugMultiDexComponents UP-TO-DATE
+:app:transformClassesWithMultidexlistForDebug
+ProGuard, version 5.2.1
+Reading program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/transforms/proguard/debug/jars/3/1f/main.jar]
+Reading library jar [/Users/Shared/Android/sdk/build-tools/23.0.3/lib/shrinkedAndroid.jar]
+Preparing output jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/multi-dex/debug/componentClasses.jar]
+  Copying resources from program jar [/Users/dim/github/Tinker_imitator/app/build/intermediates/transforms/proguard/debug/jars/3/1f/main.jar]
+:app:transformClassesWithDexForDebug
+:app:assembleDebugPatch
+开始生成插件
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/annotation mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/a/a/a/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/b mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/design/internal mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/design/widget mkdir
+change : android/support/design/widget/bp.class
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/design/widget mkdir
+change : android/support/design/widget/bm.class
+change : android/support/design/widget/Snackbar.class
+change : android/support/design/widget/Snackbar$SnackbarLayout.class
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/view mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/view/menu mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v7/view/menu mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v7/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/f mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/c/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/widget mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v7/widget mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/e mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/a/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/f mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/h mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v4/h mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/i mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/i/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/i/b mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v4/i mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/b mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v4/b mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/c mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/c/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/android/support/v4/c mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/e/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/d mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/d/a mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/widget mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v4/g mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/com/dim/common mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/com/dim/common mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/com/dim/library mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/com/dim/library mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/META-INF/maven/commons-io/commons-io mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/b mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/android/support/v7/d mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes/com/dim/tinkerimitator mkdir
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2/com/dim/tinkerimitator mkdir
+change : com/dim/tinkerimitator/MainActivity.class
+ "/Users/Shared/Android/sdk/build-tools/23.0.3/dx                            '--dex',
+                            "--output=/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258",
+                            "/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2"
+ false -> true
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes.dex -> /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2.dex   true
+ "/Users/Shared/Android/sdk/build-tools/23.0.3/dx                            '--dex',
+                            "--output=/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258",
+                            "/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes"
+ true -> true
+/Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes.dex -> /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes.dex   true
+
+BUILD SUCCESSFUL
+
+Total time: 55.181 secs
+
+This build could be faster, please consider using the Gradle Daemon: https://docs.gradle.org/2.10/userguide/gradle_daemon.html
+/usr/local/bin/bsdiff /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/basis/dex/classes.dex /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes.dex /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/patchclasses.dex
+
+/usr/local/bin/bsdiff /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/basis/dex/classes2.dex /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/classes2.dex /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/patchclasses2.dex
+
+:push: push -> /sdcard/hot/
+/Users/Shared/Android/sdk/platform-tools/adb -s 0915f9258bcf0f04 push  /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/patchclasses.dex /sdcard/hot/
+
+:push: push -> /sdcard/hot/
+/Users/Shared/Android/sdk/platform-tools/adb -s 0915f9258bcf0f04 push  /Users/dim/github/Tinker_imitator/app/patch/version_1/debug/patch-20160718-0258/patchclasses2.dex /sdcard/hot/
+

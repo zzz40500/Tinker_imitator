@@ -1,8 +1,7 @@
-package com.dim.tinkerape;
+package com.dim.tinkerimitator;
 
 import android.support.multidex.MultiDexApplication;
 
-import android.util.Log;
 import com.dim.library.Tinker;
 
 /**

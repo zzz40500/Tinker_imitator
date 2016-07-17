@@ -232,7 +232,6 @@ class TinkerPlugin implements Plugin<Project> {
                 File old = new File(patch.patchPath + File.separator + "classes.dex");
                 File rname = new File(patch.patchPath + File.separator + it.dexName + ".dex");
                 boolean to = old.renameTo(rname);
-                Logger.dim(" "+old.exists()+ " -> "+rname.exists() );
                 Logger.dim(old.getAbsolutePath()+ " -> "+rname.getAbsolutePath() + "   "+to);
             }
         }

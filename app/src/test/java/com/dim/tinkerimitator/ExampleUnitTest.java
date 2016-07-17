@@ -1,4 +1,4 @@
-package com.dim.tinkerape;
+package com.dim.tinkerimitator;
 
 import org.junit.Test;
 
