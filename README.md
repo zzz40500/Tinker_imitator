@@ -74,7 +74,7 @@ log 是运行日志. 你可以直接使用日志中的命令执行,而不使用�
 * 更好的差分算法;
 * 资源更新;
 
-特别感谢:
+特别感谢:  
 https://github.com/jasonross/Nuwa  
 https://github.com/ceabie/DexKnifePlugin  
 https://github.com/brok1n/androidBsdiffUpdate
