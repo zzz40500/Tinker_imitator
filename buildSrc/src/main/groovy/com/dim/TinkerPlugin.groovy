@@ -138,7 +138,7 @@ class TinkerPlugin implements Plugin<Project> {
                                 addParams.add("--verbose");
                                 // 替换 AndroidBuilder
                                 MultiDexAndroidBuilder.proxyAndroidBuilder(dexTransform,
-                                        addParams, patch)
+                                        addParams, patch,project.getParent().projectDir.getAbsolutePath()+"/buildSrc/libs/dx.jar")
                                 if (patch.combinedJar != null) {
                                     processJar(patch.hashFile, new File(patch.combinedJar));
                                 }
@@ -173,7 +173,7 @@ class TinkerPlugin implements Plugin<Project> {
                                     addParams.add("--verbose");
                                     // 替换 AndroidBuilder
                                     MultiDexAndroidBuilder.proxyAndroidBuilder(dexTransform,
-                                            addParams, null)
+                                            addParams, null,null)
                                 }
                             }
 
