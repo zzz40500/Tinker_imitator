@@ -1,6 +1,6 @@
 
 
-![Tinker_imitator.png](http://upload-images.jianshu.io/upload_images/166866-561c79ae94d0ed34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
+![Tinker_imitator.png](https://raw.githubusercontent.com/zzz40500/Tinker_imitator/master/screenshot/img.png)  
 
 ##[原理: 微信热更新方案](http://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=2649286306&idx=1&sn=d6b2865e033a99de60b2d4314c6e0a25&scene=0#wechat_redirect)
 简单的讲: 增量更新  
