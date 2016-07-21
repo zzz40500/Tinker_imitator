@@ -74,6 +74,11 @@ log 是运行日志. 你可以直接使用日志中的命令执行,而不使用�
 * 更好的差分算法;
 * 资源更新;
 
+##6. 尾巴  
+最近[阿宅](https://github.com/markzhai)开了个QQ实践群(568863373)，欢迎大家进来玩耍，也可以关注我们的公众号：**魔都三帅**  
+
+![Paste_Image.png](http://upload-images.jianshu.io/upload_images/166866-48ed6363e2282f7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 特别感谢:  
 https://github.com/jasonross/Nuwa  
 https://github.com/ceabie/DexKnifePlugin  
